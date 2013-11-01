@@ -1,48 +1,7 @@
+/*
+    Cornerstone Framework v0.9.1
 
-define( [ 'backbone', 'underscore', 'jquery', 'jquery.hammer' ], function( Backbone, _, $ ) {
-
-	return Backbone.View.extend( {
-	
-		constructor: function( attributes, options ) {
-		
-			var hammerOptions = this.gestureOptions;
-			
-			// Backbone.View.apply가 실행이 되어야 this.$, this.$el을 사용할 수 있으므로 여기서는 다른 방법을 사용한다.
-			var $el = $( this.el );
-			var selectors = {};
-		
-			if ( this.events ) {
-				_.each( this.events, function( value, key ) {
-					var match = key.match( /^(\S+)\s*(.*)$/ );
-					var eventName = match[ 1 ], selector = match[ 2 ];
-					
-					// hammer.js에서 처리 가능한 이벤트를 정의한 selector들을 구한다.
-					if ( _.contains( [ 'hold', 'tap', 'doubletap', 'transformstart', 'transform', 'transformend', 'dragstart', 'drag', 'dragend', 'swipe', 'release' ], eventName ) ) {
-						if ( selectors[ selector ] )
-							selectors[ selector ].push( eventName );
-						else
-							selectors[ selector ] = [ eventName ];
-					}
-				} );
-			}
-			
-			_.each( selectors, function( value, key ) {
-			
-				var options = hammerOptions ? _.clone( hammerOptions ) : {};
-				
-				options[ 'drag' ] = _.contains( value, 'dragstart' ) || _.contains( value, 'drag' ) || _.contains( value, 'dragend' );
-				options[ 'swipe' ] = _.contains( value, 'swipe' );
-				options[ 'transform' ] = _.contains( value, 'transformstart' ) || _.contains( value, 'transform' ) || _.contains( value, 'transformend' );
-				options[ 'tap' ] = _.contains( value, 'tap' );
-				options[ 'tap_double' ] = _.contains( value, 'doubletap' );
-				options[ 'hold' ] = _.contains( value, 'hold' );
-				
-				( key ? $el.find( key ) : $el ).hammer( options );
-			} );
-			
-			// 여기서 extend 된 View들의 initialize가 실행된다.
-			// 따라서 extend 된 View들의 initialize보다 먼저 실행하려면 앞쪽에, 나중에 실행하려면 뒷쪽에 코드를 작성한다.
-			Backbone.View.apply( this, arguments );
-		}
-	} );
-} );
+    COPYRIGHT(C) 2012 BY SKTELECOM CO., LTD. ALL RIGHTS RESERVED.
+    Released under the Apache License, Version 2.0
+*/
+define(["backbone","underscore","jquery","jquery.hammer"],function(e,t,n){return e.View.extend({constructor:function(r,i){var s=this.gestureOptions,o=n(this.el),u={};this.events&&t.each(this.events,function(e,n){var r=n.match(/^(\S+)\s*(.*)$/),i=r[1],s=r[2];t.contains(["hold","tap","doubletap","transformstart","transform","transformend","dragstart","drag","dragend","swipe","release"],i)&&(u[s]?u[s].push(i):u[s]=[i])}),t.each(u,function(e,n){var r=s?t.clone(s):{};r.drag=t.contains(e,"dragstart")||t.contains(e,"drag")||t.contains(e,"dragend"),r.swipe=t.contains(e,"swipe"),r.transform=t.contains(e,"transformstart")||t.contains(e,"transform")||t.contains(e,"transformend"),r.tap=t.contains(e,"tap"),r.tap_double=t.contains(e,"doubletap"),r.hold=t.contains(e,"hold"),(n?o.find(n):o).hammer(r)}),e.View.apply(this,arguments)}})})
